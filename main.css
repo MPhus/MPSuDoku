@@ -1,0 +1,169 @@
+:root {
+	--bg-color: #E1F0DA;
+	--primary-color:#99BC85;
+	--text-color: #12372A;
+	--filled-color: #D4E7C5;
+	--node-color: #F2FFE9;
+	--red-color: #e91e63;
+	--nav-height :48px;
+	--bg-hover-color: #163020;
+	--hover-color: #D4E7C5;
+	--cell-size : 48px;
+}
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html, ::placeholder, input {
+	font-family: "Kode Mono", monospace;
+}
+
+body {
+	background-color: var(--bg-color);
+	transition: all linear .3s;
+	height: 100vh;
+	overflow: hidden;
+
+}
+#mode-container {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	height: var(--nav-height);
+	margin: 0 auto;
+	font-size: 32px;
+	padding: 40px 20px;
+	max-width: 512px;
+}
+.dark {
+	--bg-color: #12372A;
+	--text-color: #D4E7C5;
+	--filled-color: #163020;
+	--node-color: #4F6F52;
+	--bg-hover-color: #D4E7C5;
+	--hover-color: #12372A;
+}
+.bxs-sun {
+	display: none;
+}
+.dark .bxs-sun {
+	display: inline-block;
+}
+.dark .bxs-moon {
+	display: none;
+}
+.mode {
+	font-size: 28px;
+	color: var(--primary-color);
+
+	transition: all linear .3s;
+}
+main {
+	height: 100%;
+	display: grid;
+	justify-content: center;
+}
+.screen {
+	
+}
+.start-screen {
+	display: none;
+	transition: all .2s linear;
+}
+.start-screen.active {
+	display: block;
+}
+.logo {
+	margin-top: 32px;
+}
+.logo-text {
+	text-align: center;
+	color: var(--text-color);
+	font-size: 40px;
+	font-weight: 700;
+}
+
+.logo-img {
+	width: 300px;
+	margin: 20px 0;
+}
+
+.screen-input {
+	display: flex;
+	flex-direction: column;
+}
+
+.input-name, .btn  {
+	width: 300px;
+	padding: 12px 8px;
+	outline: none;
+	color: var(--text-color);
+	border-radius: 8px;
+	cursor: pointer;
+	text-align: center;
+	margin-top: 16px;
+	background-color: var(--filled-color);
+	border: none;
+	font-size: 24px;
+	border: 2px solid var(--filled-color) ;
+}
+.btn {
+	background-color: var(--filled-color);
+	transition: all .3s linear;
+}
+.btn:hover {
+	background-color: var(--bg-hover-color);
+	color: var(--hover-color);
+}
+.btn-play {
+	background-color: var(--primary-color);
+}
+.input-err {
+	border-color: var(--red-color);
+	animation: shake .5s linear;
+}
+/* Game */
+
+.game-screen{
+	display: none;
+	transition: all .2s linear;
+	height: 100%;
+	padding: 20px;
+}
+.game-screen.active {
+	display: block ;
+}
+
+.main-game{
+	display: grid;
+	gap: 5px;
+	grid-template-columns: repeat(9, auto);
+}
+.game-cell {
+	width: var(--cell-size);
+	height: var(--cell-size);
+	background-color: var(--node-color);
+	border-radius: 8px;
+	display: grid;
+	place-items: center;
+	font-size: 24px;
+	color: var(--text-color);
+}
+
+
+/* Animation */
+@keyframes shake {
+	0%{
+		transform: translateX(0);
+	}
+	25%{
+		transform: translateX(-20px);
+	}
+	50%{
+		transform: translateX(20px);
+	}
+	100%{
+		transform: translateX(0);
+	}
+}
