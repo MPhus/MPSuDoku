@@ -3,7 +3,8 @@
 	--primary-color:#99BC85;
 	--text-color: #12372A;
 	--filled-color: #D4E7C5;
-	--node-color: #F2FFE9;
+	/* --node-color: #F2FFE9; */
+	--node-color: red;
 	--red-color: #e91e63;
 	--nav-height :48px;
 	--bg-hover-color: #163020;
