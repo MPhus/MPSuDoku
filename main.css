@@ -152,9 +152,6 @@ main {
 .game-home-icon {
 	font-size: 36px;
 }
-.game-header {
-
-}
 .game-time {
 	display: flex;
 	align-items: center;
@@ -186,6 +183,16 @@ main {
 	font-size: 24px;
 	color: var(--text-color);
 	cursor: pointer;
+}
+.game-cell.filled {
+	background-color: var(--filled-color);
+}
+.game-cell.err {
+	background-color: var(--red-color);
+	color: var(--bg-color);
+}
+.game-cell:hover {
+	border: 4px solid var(--primary-color);
 }
 .bot-game-text {
 	display: grid;
@@ -222,7 +229,10 @@ main {
 	border-radius: 8px;
 	cursor: pointer;
 }
-
+.delete {
+	background-color: var(--red-color);
+	color: var(--bg-color);
+}
 /* Animation */
 @keyframes shake {
 	0%{
