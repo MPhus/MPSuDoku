@@ -1,5 +1,5 @@
 :root {
-	--bg-color: #E1F0DA;
+	--bg-color: #ceddc7;
 	--primary-color:#99BC85;
 	--text-color: #12372A;
 	--filled-color: #D4E7C5;
@@ -64,9 +64,6 @@ main {
 	display: grid;
 	justify-content: center;
 }
-.screen {
-	
-}
 .start-screen {
 	display: none;
 	transition: all .2s linear;
@@ -130,15 +127,54 @@ main {
 	transition: all .2s linear;
 	height: 100%;
 	padding: 20px;
+	color: var(--text-color);
 }
 .game-screen.active {
 	display: block ;
 }
+.top-game {
+	display: grid;
+	grid-template-columns: 2fr 3fr 2fr;
+	padding: 12px 0;
+	place-items: center	;
+}
+.game-home {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	background-color: var(--node-color);
+	border: 1px solid var(--filled-color);
+	border-radius: 8px;
+	justify-content: center;
+	cursor: pointer;
+	color: var(--primary-color);
+}
+.game-home-icon {
+	font-size: 36px;
+}
+.game-header {
 
+}
+.game-time {
+	display: flex;
+	align-items: center;
+}
+.game-clock {
+	font-size: 24px;
+	display: inline-block;
+}
+.game-pause {
+	font-size: 36px;
+	background-color: var(--node-color);
+	margin-left: 12px;
+	border-radius: 50%;
+	border: 1px solid var(--filled-color);
+}
 .main-game{
 	display: grid;
 	gap: 5px;
 	grid-template-columns: repeat(9, auto);
+	border-radius: 8px;
 }
 .game-cell {
 	width: var(--cell-size);
@@ -149,8 +185,43 @@ main {
 	place-items: center;
 	font-size: 24px;
 	color: var(--text-color);
+	cursor: pointer;
+}
+.bot-game-text {
+	display: grid;
+	grid-template-columns: auto auto;
+	place-items: center;
+	gap: 8px;
+	margin: 20px 0;
+	font-size: 24px;
+}
+.bot-game-name,.bot-game-level  {
+	text-align: center;
+	height: vaR(--cell-size);
+	line-height: var(--cell-size);
+	cursor: default;
+	width: 100%;
+	background-color: var(--node-color);
+	border-radius: 8px;
+
 }
 
+.bot-game-number {
+	display: grid ;
+	grid-template-columns: repeat(5, auto);
+	place-items: center	;
+	gap: 4px;
+}
+.number-sudoku {
+	text-align: center;
+	line-height: var(--cell-size);
+	font-size: 20px;
+	width: 100%;
+	height: var(--cell-size);
+	background-color: var(--node-color);
+	border-radius: 8px;
+	cursor: pointer;
+}
 
 /* Animation */
 @keyframes shake {
