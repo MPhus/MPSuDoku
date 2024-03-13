@@ -5,10 +5,12 @@
 	--filled-color: #D4E7C5;
 	--node-color: #F2FFE9;
 	--red-color: #e91e63;
+	--yellow-color:#FFF455;
 	--nav-height :48px;
 	--bg-hover-color: #163020;
 	--hover-color: #D4E7C5;
 	--cell-size : 48px;
+	--main-game-bg:#6D8B74;
 }
 *{
 	margin: 0;
@@ -43,6 +45,10 @@ body {
 	--node-color: #4F6F52;
 	--bg-hover-color: #D4E7C5;
 	--hover-color: #12372A;
+	--yellow-color:#D49B54;
+	--main-game-bg:#BEDBBB;
+	
+
 }
 .bxs-sun {
 	display: none;
@@ -66,7 +72,9 @@ main {
 }
 .start-screen {
 	display: none;
-	transition: all .2s linear;
+	transition: all .5s linear;
+	animation: opa linear .3s ;
+
 }
 .start-screen.active {
 	display: block;
@@ -90,14 +98,15 @@ main {
 	display: flex;
 	flex-direction: column;
 }
-
+.input-name {
+	cursor: text;
+}
 .input-name, .btn  {
 	width: 300px;
 	padding: 12px 8px;
 	outline: none;
 	color: var(--text-color);
 	border-radius: 8px;
-	cursor: pointer;
 	text-align: center;
 	margin-top: 16px;
 	background-color: var(--filled-color);
@@ -107,6 +116,8 @@ main {
 }
 .btn {
 	background-color: var(--filled-color);
+	cursor: pointer;
+
 	transition: all .3s linear;
 }
 .btn:hover {
@@ -128,11 +139,14 @@ main {
 	height: 100%;
 	padding: 20px;
 	color: var(--text-color);
+	transition: all .5s linear;
+	animation: opa linear .3s ;
+
 }
 .game-screen.active {
 	display: block ;
 }
-.top-game {
+.top-game-nav{
 	display: grid;
 	grid-template-columns: 2fr 3fr 2fr;
 	padding: 12px 0;
@@ -147,10 +161,17 @@ main {
 	border-radius: 8px;
 	justify-content: center;
 	cursor: pointer;
-	color: var(--primary-color);
+	color: var(--text-color);
+	transition: all linear .3s;
+
+}
+.game-home:hover , 
+.game-pause:hover {
+	background-color: var(--bg-hover-color);
+	color: var(--hover-color);
 }
 .game-home-icon {
-	font-size: 36px;
+	font-size: 28px;
 }
 .game-time {
 	display: flex;
@@ -166,12 +187,17 @@ main {
 	margin-left: 12px;
 	border-radius: 50%;
 	border: 1px solid var(--filled-color);
+	cursor: pointer;
+	transition: all linear .3s;
 }
+
 .main-game{
 	display: grid;
 	gap: 5px;
 	grid-template-columns: repeat(9, auto);
+	padding: 16px;
 	border-radius: 8px;
+	background-color: var(--main-game-bg);
 }
 .game-cell {
 	width: var(--cell-size);
@@ -194,30 +220,46 @@ main {
 .game-cell:hover {
 	border: 4px solid var(--primary-color);
 }
-.bot-game-text {
+.top-game-infor {
 	display: grid;
-	grid-template-columns: auto auto;
+	grid-template-columns: auto auto var(--cell-size) ;
 	place-items: center;
 	gap: 8px;
-	margin: 20px 0;
+	margin:8px 0;
 	font-size: 24px;
 }
-.bot-game-name,.bot-game-level  {
+.top-game-name,.top-game-level  {
 	text-align: center;
 	height: vaR(--cell-size);
 	line-height: var(--cell-size);
 	cursor: default;
 	width: 100%;
-	background-color: var(--node-color);
+	background-color: var(--main-game-bg);
 	border-radius: 8px;
-
+	color: var(--node-color);
+	font-weight: 500;
+}
+.top-game-answer {
+	font-size: 36px;
+	background-color: var(--node-color);
+	height: vaR(--cell-size);
+	line-height: var(--cell-size);
+	margin-right: 12px;
+	border-radius: 8px;
+	border: 1px solid var(--filled-color);
+	cursor: pointer;
+	transition: all linear .3s;
 }
 
+.top-game-answer:hover {
+	background-color: var(--yellow-color);
+}
 .bot-game-number {
 	display: grid ;
 	grid-template-columns: repeat(5, auto);
 	place-items: center	;
 	gap: 4px;
+	margin: 16px 0;
 }
 .number-sudoku {
 	text-align: center;
@@ -233,6 +275,31 @@ main {
 	background-color: var(--red-color);
 	color: var(--bg-color);
 }
+.pause-screen{
+	display: none;
+	transition: all .2s linear;
+	height: 100%;
+	padding: 20px;
+	color: var(--text-color);
+	animation: zoom linear .2s ;
+}
+.pause-text {
+	text-align: center;
+	color: var(--text-color);
+	font-size: 40px;
+	font-weight: 700;
+}
+.pause-screen-wrap {
+	padding: 40px;
+	background-color: var(--node-color);
+	border-radius: 8px;
+}
+.pause-screen.active {
+	display: block ;
+}
+.btn-resume{
+	background-color: var(--primary-color);
+}
 /* Animation */
 @keyframes shake {
 	0%{
@@ -247,4 +314,21 @@ main {
 	100%{
 		transform: translateX(0);
 	}
+}
+
+@keyframes zoom {
+	0% {
+        transform: scale(2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+@keyframes opa {
+	0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

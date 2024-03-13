@@ -1,3 +1,5 @@
+// CONSTANT VALUE
+
 var CONSTANT = {
     UNASSIGNED: 0,
     GRID_SIZE: 9,
@@ -13,11 +15,11 @@ var CONSTANT = {
     ],
     LEVEL: [29, 38, 47, 56, 65, 74]
 }
-// Initial Variable
+// SUDOKU 
+
 
 // ----
 var cells = document.querySelectorAll('.game-cell');
-
 // ----input
 var nameIput = document.querySelector('.input-name');
 var btnPlay =document.querySelector('.btn-play');
@@ -25,17 +27,22 @@ var btnLevel = document.querySelector('.btn-level')
 var levelIndex = 0;
 var lengthLevel = CONSTANT.LEVEL.length;
 var level = CONSTANT.LEVEL[levelIndex];
-
+var btnResume = document.querySelector('.btn-resume');
+var btnNewGame = document.querySelector('.btn-new-game');
+var Pause = true;
 
 // ----Screen
 var startScreen = document.querySelector('.start-screen');
 var gameScreen = document.querySelector('.game-screen');
+var pauseScreen = document.querySelector('.pause-screen');
+
 
 // ----game
-var gameName = document.querySelector('.bot-game-name');
-var gameLevel = document.querySelector('.bot-game-level');
+var gameName = document.querySelector('.top-game-name');
+var gameLevel = document.querySelector('.top-game-level');
 var gameClock = document.querySelector('.game-clock');
-
+var gamePause = document.querySelector('.game-pause');
+var pauseTime =document.querySelector('.pause-time');
 // Dark Mode
 document.querySelector('.mode').addEventListener('click', () => {
 	document.body.classList.toggle('dark')
@@ -44,9 +51,6 @@ document.querySelector('.mode').addEventListener('click', () => {
 	document.querySelector('meta[name="theme-color"').setAttribute('content', isDark ? '#12372A' : '#E1F0DA')
 })
 
-var getGameInfo = () => {
-	return  localStorage.getItem('game');
-}
 // Margin 9 Cell
 
 var initGrid = () => {
@@ -64,40 +68,24 @@ btnLevel.addEventListener('click', (e) => {
 	level = CONSTANT.LEVEL[levelIndex];
 	e.target.innerHTML = CONSTANT.LEVEL_NAME[levelIndex] ;
 })
+
 // Start game
-gamePause = false;
 var seconds = 0;
-var showTime = (seconds) => {
-	return new Date(seconds * 1000).toISOString().substring(14,19);
-} 
-	
+var showTime = (seconds) => new Date(seconds * 1000).toISOString().substring(14,19);
 var startGame = () => {
 	startScreen.classList.remove('active');
 	gameScreen.classList.add('active');
 	gameName.innerHTML = nameIput.value.trim();
 	gameLevel.innerHTML = btnLevel.innerHTML;
-	setInterval(() => {
-		if(gamePause) {
+	tiMer = setInterval(() => {
+		if(Pause) {
 			seconds+=1;
 			gameClock.innerHTML = showTime(seconds);
+			pauseTime.innerHTML = showTime(seconds);
 		}
 	}, 1000);
 
 }
-
-	
-// goHome 
-var goHome = () => {
-	startScreen.classList.add('active');
-	gameScreen.classList.remove('active');
-}
-document.querySelector('.game-home').addEventListener('click', () => {
-	goHome();
-})
-
-
-//  CLick Play Button
-
 btnPlay.addEventListener('click', () => {
 	if(nameIput.value.trim().length > 0) {
 		startGame();
@@ -111,7 +99,46 @@ btnPlay.addEventListener('click', () => {
 	
 })
 	
+// Pause game
+var returnStartScreen = () => {
+	clearInterval(tiMer);
+	seconds = 0;
+	Pause = true;
+	startScreen.classList.add('active');
+	pauseScreen.classList.remove('active');
+}
+gamePause.addEventListener('click', () => {
+	gameScreen.classList.remove('active');
+	pauseScreen.classList.add('active');
+	Pause = false;
+})
+btnResume.addEventListener('click', () => {
+	gameScreen.classList.add('active');
+	pauseScreen.classList.remove('active');
+	Pause = true;
+})
+btnNewGame.addEventListener('click', () => {
+	returnStartScreen()
+})
+// Pause Screen
 
+
+
+// goHome 
+var goHome = () => {
+	startScreen.classList.add('active');
+	gameScreen.classList.remove('active');
+	clearInterval(tiMer);
+
+}
+document.querySelector('.game-home').addEventListener('click', () => {
+	goHome();
+})
+
+
+var getGameInfo = () => {
+	return  localStorage.getItem('game');
+}
 
 // init
 var init = () => {

@@ -21,7 +21,7 @@
 		</nav>
 		<main>
 			<div class="screen">
-				<div class="start-screen active  ">
+				<div class="start-screen  active ">
 					<div class="logo">
 						<h1 class="logo-text">SUDOKU</h1>
 						<img src="./logoSudoku.png" alt="logo" class="logo-img">
@@ -30,26 +30,36 @@
 						<input type="text" name="" placeholder="Your name ?" id="" class="input-name">
 						<div class=" btn btn-level">Easy</div>
 						<div class=" btn btn-continue">Continue</div>
-						<div class=" btn btn-play">Play</div>
+						<div class=" btn btn-play">New Game</div>
 					</div>
 				</div>
-				<div class="game-screen  ">
+				<div class="game-screen">
 					<div class="top-game">
-						<div class="game-home">
-							<i class='bx bx-home-alt game-home-icon'></i>
-							<h2 class="game-home-heading">
-								Home
-							</h2>
+						<div class="top-game-nav">
+
+							<div class="game-home">
+								<i class='bx bx-home-alt game-home-icon'></i>
+								<h2 class="game-home-heading">
+									Home
+								</h2>
+							</div>
+							<h1 class="game-header">SUDOKU</h1>
+							<div class="game-time">
+								<h2 class="game-clock">00:00
+								</h2>
+								<i class='bx bx-pause game-pause'></i>
+							</div>
+	
 						</div>
-						<h1 class="game-header">SUDOKU</h1>
-						<div class="game-time">
-							<h2 class="game-clock">00:00
-							</h2>
-							<i class='bx bx-pause game-pause'></i>
+						<div class="top-game-infor">
+							<div class="top-game-name">MPhus</div>
+							<div class="top-game-level">Easy</div>
+								<i class='bx bx-bulb top-game-answer'></i>
+							
 						</div>
-						
 						
 					</div>
+					
 					<div class="main-game">
 						<div class="game-cell ">2</div>
 						<div class="game-cell"></div>
@@ -134,10 +144,7 @@
 						<div class="game-cell"></div>
 					</div>
 					<div class="bot-game">
-						<div class="bot-game-text">
-							<div class="bot-game-name">MPhus</div>
-							<div class="bot-game-level">Easy</div>
-						</div>
+						
 						<div class="bot-game-number">
 							<div class="number-sudoku">1</div>
 							<div class="number-sudoku">2</div>
@@ -150,6 +157,17 @@
 							<div class="number-sudoku">9</div>
 							<div class="number-sudoku delete">X</div>
 						</div>
+					</div>
+				</div>
+				<div class="pause-screen ">
+					<div class="pause-screen-wrap">
+						<div class="pause-text-wrap">
+							<h1 class="pause-text">PAUSED</h1>
+							<h2 class="pause-text pause-time"></h2>
+							<!-- <img src="./logoSudoku.png" alt="logo" class="logo-img"> -->
+						</div>
+						<div class=" btn btn-resume">Resume</div>
+						<div class=" btn btn-new-game">New Game</div>
 					</div>
 				</div>
 			</div>
