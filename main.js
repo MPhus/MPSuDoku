@@ -16,7 +16,9 @@ var CONSTANT = {
     LEVEL: [29, 38, 47, 56, 65, 74]
 }
 // SUDOKU 
-
+var gridInit = () => {
+	
+}
 
 // ----
 var cells = document.querySelectorAll('.game-cell');
