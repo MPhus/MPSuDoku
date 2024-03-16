@@ -1,6 +1,5 @@
-// CONSTANT VALUE
-
-var CONSTANT = {
+// CONSTANT_SUDOKU VALUE
+var CONSTANT_SUDOKU = {
     UNASSIGNED: 0,
     GRID_SIZE: 9,
     BOX_SIZE: 3,
@@ -15,18 +14,125 @@ var CONSTANT = {
     ],
     LEVEL: [29, 38, 47, 56, 65, 74]
 }
+
+
+
+
+
 // SUDOKU 
+var newGrid = (size) => {
+	var arr = new Array(size);
+	for(var i = 0 ; i< size; i++) {
+		arr[i] = new Array(size);
+	}
+	for(var i = 0 ; i < Math.pow(size,2); i++) {
+		arr[Math.floor(i/size)][i%size] = CONSTANT_SUDOKU.UNASSIGNED;
+	}
+	return arr;
+}
+
+var isRowSafe = (grid, row, value) => {
+	for(var col= 0; col <CONSTANT_SUDOKU.GRID_SIZE; col++) {
+		if(grid[row][col] === value) return false
+	}
+	return true;
+}
+
+var isColSafe = (grid, col, value) => {
+	for(var row= 0; row <CONSTANT_SUDOKU.GRID_SIZE; row++) {
+		if(grid[row][col] === value) return false
+	}
+	return true;
+}
+
+var isBoxSafe = (grid, row_box, col_box, value) => {
+	for(var row = 0; row<CONSTANT_SUDOKU.BOX_SIZE; row++){
+		for(var col = 0; col<CONSTANT_SUDOKU.BOX_SIZE; col++){
+			if(grid[row + row_box][col + col_box] === value) return false
+		}
+	}
+	return true;
+}
+
+var isSafe = (grid, row, col, value) => {
+	return isRowSafe(grid, row, value) && isColSafe(grid, col, value) && isBoxSafe(grid, row - row%3, col - col %3 , value) && value !==CONSTANT_SUDOKU.UNASSIGNED;
+}
+
+var findUnassignPos = (grid , pos) => {
+	for(var row = 0; row <CONSTANT_SUDOKU.GRID_SIZE; row ++) {
+		for(var col = 0; col <CONSTANT_SUDOKU.GRID_SIZE; col++) {
+			if(grid[row][col] === CONSTANT_SUDOKU.UNASSIGNED ){
+				pos.row = row;
+				pos.col = col;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+var suffArr = (arr) => {
+	var curr_index = arr.length;
+	while(curr_index > 0){
+
+		var rand_index = Math.floor(Math.random() * curr_index);
+
+		curr_index-= 1;
+
+		var temp = arr[rand_index];
+		arr[rand_index] = arr[curr_index];
+		arr[curr_index] = temp;
+	}
+	return arr;
+}
+var isFullGrid = (grid) => {
+	return grid.every((row) => {
+		return row.every(value => {
+			return value !== CONSTANT_SUDOKU.UNASSIGNED;
+		})
+	})
+}
+var createSudoku = (grid) => {
+	var unassignPos = {
+		row: -1,
+		col: -1
+	}
+
+	if(!findUnassignPos(grid, unassignPos)) return true;
+
+	var row = unassignPos.row;
+	var col = unassignPos.col;
+
+	var numberList = suffArr(CONSTANT_SUDOKU.NUMBERS);
+
+	numberList.forEach((num) => {
+		if(isSafe(grid, row, col, num)){
+
+			grid[row][col] = num;
+
+			if(createSudoku(grid)) return true;
+
+			grid[row][col] = CONSTANT_SUDOKU.UNASSIGNED;
+		}
+	});
+	return isFullGrid(grid);
+}
+
+var arr = newGrid(CONSTANT_SUDOKU.GRID_SIZE)
+createSudoku(arr);
+createSudoku(arr);
+console.log(arr);
+
+// -----------------------------------------------------------
 
 
-// ----
 var cells = document.querySelectorAll('.game-cell');
 // ----input
 var nameIput = document.querySelector('.input-name');
 var btnPlay =document.querySelector('.btn-play');
 var btnLevel = document.querySelector('.btn-level')
 var levelIndex = 0;
-var lengthLevel = CONSTANT.LEVEL.length;
-var level = CONSTANT.LEVEL[levelIndex];
+var lengthLevel = CONSTANT_SUDOKU.LEVEL.length;
+var level = CONSTANT_SUDOKU.LEVEL[levelIndex];
 var btnResume = document.querySelector('.btn-resume');
 var btnNewGame = document.querySelector('.btn-new-game');
 var Pause = true;
@@ -54,9 +160,9 @@ document.querySelector('.mode').addEventListener('click', () => {
 // Margin 9 Cell
 
 var initGrid = () => {
-	for(var i = 0; i < Math.pow(CONSTANT.GRID_SIZE, 2); i++ ) {
-		var rows = Math.floor(i/CONSTANT.GRID_SIZE);
-		var cols = i%CONSTANT.GRID_SIZE;
+	for(var i = 0; i < Math.pow(CONSTANT_SUDOKU.GRID_SIZE, 2); i++ ) {
+		var rows = Math.floor(i/CONSTANT_SUDOKU.GRID_SIZE);
+		var cols = i%CONSTANT_SUDOKU.GRID_SIZE;
 		if(rows == 2 || rows == 5) cells[i].style.marginBottom = '8px'
 		if(cols == 2 || cols == 5) cells[i].style.marginRight = '8px'
 	}
@@ -65,8 +171,8 @@ var initGrid = () => {
 // LEVEL
 btnLevel.addEventListener('click', (e) => {
 	levelIndex = levelIndex + 1 > lengthLevel -1 ? 0 : levelIndex + 1;
-	level = CONSTANT.LEVEL[levelIndex];
-	e.target.innerHTML = CONSTANT.LEVEL_NAME[levelIndex] ;
+	level = CONSTANT_SUDOKU.LEVEL[levelIndex];
+	e.target.innerHTML = CONSTANT_SUDOKU.LEVEL_NAME[levelIndex] ;
 })
 
 // Start game
