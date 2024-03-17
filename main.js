@@ -102,7 +102,7 @@ var createSudoku = (grid) => {
 	var row = unassignPos.row;
 	var col = unassignPos.col;
 
-	var numberList = suffArr(CONSTANT_SUDOKU.NUMBERS);
+	var numberList = suffArr([...CONSTANT_SUDOKU.NUMBERS]);
 
 	numberList.forEach((num) => {
 		if(isSafe(grid, row, col, num)){
@@ -117,10 +117,74 @@ var createSudoku = (grid) => {
 	return isFullGrid(grid);
 }
 
-var arr = newGrid(CONSTANT_SUDOKU.GRID_SIZE)
-createSudoku(arr);
-createSudoku(arr);
-console.log(arr);
+// check
+
+
+// const sudokuCheck = (grid) => {
+//     let unassigned_pos = {
+//         row: -1,
+//         col: -1
+//     }
+
+//     if (!findUnassignPos(grid, unassigned_pos)) return true;
+
+//     grid.forEach((row, i) => {
+//         row.forEach((num, j) => {
+//             if (isSafe(grid, i, j, num)) {  
+//                 if (isFullGrid(grid)) {
+//                     return true;
+//                 } else {
+//                     if (createSudoku(grid)) {
+//                         return true;	
+//                     }
+//                 }
+//             }
+//         })
+//     })
+
+//     return isFullGrid(grid);
+// }
+// ---
+
+
+var rand = () =>  Math.floor(Math.random() * CONSTANT_SUDOKU.GRID_SIZE);
+
+var removeCells = (grid, level) => {
+	var arr = grid.map(row => row.slice());
+	var index = level;
+	while (index > 0) {
+		var row = rand();
+		var col = rand();
+		while (arr[row][col] === CONSTANT_SUDOKU.UNASSIGNED) {
+			row = rand();
+			col = rand();
+		}
+		arr[row][col] = CONSTANT_SUDOKU.UNASSIGNED;
+		index -- 
+	}
+	return arr;
+}
+
+// var testSudoku = newGrid(CONSTANT_SUDOKU.GRID_SIZE);
+// createSudoku(testSudoku);
+// console.log(testSudoku);
+// var hihi = removeCells(testSudoku,CONSTANT_SUDOKU.LEVEL[2])
+// console.log(hihi);
+// console.log(testSudoku);
+
+
+var genSudoku = (level) => {
+	var sudoku = newGrid(CONSTANT_SUDOKU.GRID_SIZE);
+	var check = createSudoku(sudoku);
+	if(check){
+		var question = removeCells(sudoku, level);
+		return	{
+			original: sudoku,
+			question: question
+		}
+	}
+	return undefined
+}
 
 // -----------------------------------------------------------
 
@@ -149,6 +213,9 @@ var gameLevel = document.querySelector('.top-game-level');
 var gameClock = document.querySelector('.game-clock');
 var gamePause = document.querySelector('.game-pause');
 var pauseTime =document.querySelector('.pause-time');
+// sudoku
+var su = undefined;
+var suAnswer = undefined;
 // Dark Mode
 document.querySelector('.mode').addEventListener('click', () => {
 	document.body.classList.toggle('dark')
@@ -176,8 +243,10 @@ btnLevel.addEventListener('click', (e) => {
 })
 
 // Start game
+
 var seconds = 0;
 var showTime = (seconds) => new Date(seconds * 1000).toISOString().substring(14,19);
+
 var startGame = () => {
 	startScreen.classList.remove('active');
 	gameScreen.classList.add('active');
@@ -190,10 +259,11 @@ var startGame = () => {
 			pauseTime.innerHTML = showTime(seconds);
 		}
 	}, 1000);
-
 }
+
 btnPlay.addEventListener('click', () => {
 	if(nameIput.value.trim().length > 0) {
+		initSudoku();
 		startGame();
 	}else {
 		nameIput.classList.add('input-err');
@@ -226,9 +296,6 @@ btnResume.addEventListener('click', () => {
 btnNewGame.addEventListener('click', () => {
 	returnStartScreen()
 })
-// Pause Screen
-
-
 
 // goHome 
 var goHome = () => {
@@ -245,13 +312,36 @@ document.querySelector('.game-home').addEventListener('click', () => {
 var getGameInfo = () => {
 	return  localStorage.getItem('game');
 }
+var sudokuClear = () => {
+	for(var i = 0 ; i < Math.pow(CONSTANT_SUDOKU.GRID_SIZE,2); i++) {
+		cells[i].innerHTML = ''
+		cells[i].classList.remove('filled');
+	}
+}
+// initSudoku
+var initSudoku = () => {
+	
+	sudokuClear();
+
+	su = genSudoku(level);
+	suAnswer = su.question
+	for(var i = 0 ; i < Math.pow(CONSTANT_SUDOKU.GRID_SIZE,2); i++) {
+		var row = Math.floor(i/CONSTANT_SUDOKU.GRID_SIZE);
+		var col = i%CONSTANT_SUDOKU.GRID_SIZE;
+		if(suAnswer[row][col] !== 0) {
+			cells[i].innerHTML = suAnswer[row][col];
+			cells[i].classList.add('filled')
+		}
+	}
+	console.table(su.original)
+}
 
 // init
 var init = () => {
 	var isDarkMode = JSON.parse(localStorage.getItem('darkMode')) ;
 	document.body.classList.add(isDarkMode ? 'dark' : 'light');
-	document.querySelector('meta[name="theme-color"').setAttribute('content', isDarkMode ? '#12372A' : '#E1F0DA')
-	
+	document.querySelector('meta[name="theme-color"').setAttribute('content', isDarkMode ? '#12372A' : '#E1F0DA');
+
 	var game = getGameInfo();
 	document.querySelector('.btn-continue').style.display = game ? 'block' : 'none'
 	initGrid();
