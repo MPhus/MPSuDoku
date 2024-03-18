@@ -318,10 +318,67 @@ var sudokuClear = () => {
 		cells[i].classList.remove('filled');
 	}
 }
+
+var bgHover = (index) => {
+	var row = Math.floor(index / CONSTANT_SUDOKU.GRID_SIZE);
+	var col = index % CONSTANT_SUDOKU.GRID_SIZE;
+
+	var box_start_row = row - row % CONSTANT_SUDOKU.BOX_SIZE;
+	var box_start_col = col - col % CONSTANT_SUDOKU.BOX_SIZE;
+
+	for(var i = 0; i<CONSTANT_SUDOKU.BOX_SIZE; i++) {
+		for(var j = 0; j<CONSTANT_SUDOKU.BOX_SIZE; j++) {
+			var cell = cells[9 * (box_start_row + i) + (box_start_col + j)];
+			cell.classList.add('hover')
+		}
+	}
+	var step = 9;
+	while(index - step >=0) {
+		cells[index - step].classList.add('hover')
+		step+=9;
+	}
+	step =9;
+	while(index + step < 81) {
+		cells[index + step].classList.add('hover')
+		step+=9;
+	}
+	step = 1;
+	while(index - step >= 9 * row) {
+		cells[index - step].classList.add('hover')
+		step+=1;
+	}
+	step = 1;
+	while(index + step < 9 * row + 9) {
+		cells[index + step].classList.add('hover')
+		step+=1;
+	}
+
+}
+// resetBg
+var removeBg = ()=> {
+	cells.forEach((item,i) => {
+		item.classList.remove('hover');
+	}) 
+}
+var initCellsEvent = () => {
+	cells.forEach((item,index) => {
+		item.addEventListener('click', () => {
+			if(!item.classList.contains('filled')) {
+				cells.forEach(e => e.classList.remove('selected'));
+				item.classList.add('selected');
+				removeBg();
+				bgHover(index);
+			}
+		})
+	})
+}
+
 // initSudoku
 var initSudoku = () => {
-	
+
 	sudokuClear();
+	removeBg();
+	initCellsEvent();
 
 	su = genSudoku(level);
 	suAnswer = su.question
@@ -335,6 +392,7 @@ var initSudoku = () => {
 	}
 	console.table(su.original)
 }
+
 
 // init
 var init = () => {

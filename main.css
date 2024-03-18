@@ -11,6 +11,8 @@
 	--hover-color: #D4E7C5;
 	--cell-size : 48px;
 	--main-game-bg:#6D8B74;
+	--cell-hover: #12372A;
+
 }
 *{
 	margin: 0;
@@ -20,23 +22,12 @@
 html, ::placeholder, input {
 	font-family: "Kode Mono", monospace;
 }
-
 body {
 	background-color: var(--bg-color);
 	transition: all linear .3s;
 	height: 100vh;
 	overflow: hidden;
 
-}
-#mode-container {
-	display: flex;
-	justify-content: end;
-	align-items: center;
-	height: var(--nav-height);
-	margin: 0 auto;
-	font-size: 32px;
-	padding: 40px 20px;
-	max-width: 512px;
 }
 .dark {
 	--bg-color: #12372A;
@@ -46,8 +37,8 @@ body {
 	--bg-hover-color: #D4E7C5;
 	--hover-color: #12372A;
 	--yellow-color:#D49B54;
-	--main-game-bg:#BEDBBB;
-	
+	--main-game-bg:#739072;
+	--cell-hover: #ceddc7;
 
 }
 .bxs-sun {
@@ -59,28 +50,20 @@ body {
 .dark .bxs-moon {
 	display: none;
 }
-.mode {
-	font-size: 28px;
-	color: var(--primary-color);
 
-	transition: all linear .3s;
-}
 main {
 	height: 100%;
 	display: grid;
 	justify-content: center;
+	align-items: center;
 }
 .start-screen {
 	display: none;
 	transition: all .5s linear;
 	animation: opa linear .3s ;
-
 }
 .start-screen.active {
 	display: block;
-}
-.logo {
-	margin-top: 32px;
 }
 .logo-text {
 	text-align: center;
@@ -217,8 +200,15 @@ main {
 	background-color: var(--red-color);
 	color: var(--bg-color);
 }
+.game-cell.hover {
+	border: 3px solid var(--cell-hover);
+}
+.game-cell.selected {
+	background-color: var(--cell-hover);
+
+}
 .game-cell:hover {
-	border: 4px solid var(--primary-color);
+	border: 4px solid var(--cell-hover);
 }
 .top-game-infor {
 	display: grid;
@@ -238,6 +228,11 @@ main {
 	border-radius: 8px;
 	color: var(--node-color);
 	font-weight: 500;
+}
+.mode {
+	font-size: 28px;
+	color: var(--cell-hover);
+	transition: all linear .3s;
 }
 .top-game-answer {
 	font-size: 36px;
