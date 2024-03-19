@@ -22,12 +22,15 @@ var CONSTANT_SUDOKU = {
 // SUDOKU 
 var newGrid = (size) => {
 	var arr = new Array(size);
+
 	for(var i = 0 ; i< size; i++) {
 		arr[i] = new Array(size);
 	}
+
 	for(var i = 0 ; i < Math.pow(size,2); i++) {
 		arr[Math.floor(i/size)][i%size] = CONSTANT_SUDOKU.UNASSIGNED;
 	}
+
 	return arr;
 }
 
@@ -151,6 +154,7 @@ var rand = () =>  Math.floor(Math.random() * CONSTANT_SUDOKU.GRID_SIZE);
 
 var removeCells = (grid, level) => {
 	var arr = grid.map(row => row.slice());
+	// var arr = [...grid]
 	var index = level;
 	while (index > 0) {
 		var row = rand();
@@ -213,9 +217,12 @@ var gameLevel = document.querySelector('.top-game-level');
 var gameClock = document.querySelector('.game-clock');
 var gamePause = document.querySelector('.game-pause');
 var pauseTime =document.querySelector('.pause-time');
+
+var numberInput = document.querySelectorAll('.number-input');
 // sudoku
 var su = undefined;
 var suAnswer = undefined;
+var selectedCell = -1;
 // Dark Mode
 document.querySelector('.mode').addEventListener('click', () => {
 	document.body.classList.toggle('dark')
@@ -367,10 +374,86 @@ var initCellsEvent = () => {
 				cells.forEach(e => e.classList.remove('selected'));
 				item.classList.add('selected');
 				removeBg();
+				selectedCell = index;
 				bgHover(index);
+				console.log(selectedCell);
 			}
 		})
 	})
+}
+var saveGameInfo = () => {
+	var game = {
+		levelIndex: levelIndex,
+		seconds: seconds,
+		su: {
+			original: su.original,
+			question: su.question,
+			suAnswer: suAnswer,
+		}
+	}
+	localStorage.setItem('game', JSON.stringify(game));
+}
+var checkErr = (value) => {
+	var addErr = (a) => {
+		if(parseInt(a.getAttribute('data')) === value){
+			a.classList.add('err');
+		}
+	}
+
+	var index = selectedCell;
+	var row = Math.floor(index / CONSTANT_SUDOKU.GRID_SIZE)
+	var col = index % CONSTANT_SUDOKU.GRID_SIZE
+
+	var box_row = row - row % CONSTANT_SUDOKU.BOX_SIZE;
+	var box_col = col - col % CONSTANT_SUDOKU.BOX_SIZE;
+
+	for(var i = 0; i< CONSTANT_SUDOKU.BOX_SIZE; i++){
+		for(var j = 0; j< CONSTANT_SUDOKU.BOX_SIZE; j++) {
+			var cell = cells[9 * (i +box_row )+ (j + box_col)]
+			if(!cell.classList.contains('selected')) addErr(cell);
+		}
+	}
+
+	var step = 9;
+	while(index - step >= 0) {
+		addErr( cells[index - step]);
+		step+=9;
+	}
+	step = 9;
+	while(index + step <  81) {
+		addErr(cells[index + step]);
+		step+=9;
+	}
+	step = 1;
+	while(index - step >=  row *9) {
+		addErr(cells[index - step]);
+		step+=1;
+	}
+	step = 1;
+	while(index + step <  row *9 + 9) {
+		addErr(cells[index + step]);
+		step+=1;
+	}
+}
+var removeErr = () => cells.forEach(item => item.classList.remove('err') )
+
+var initNumberInputEvent = () => {
+	numberInput.forEach((item, i) => {
+		item.addEventListener('click', () => {
+			if(!cells[selectedCell].classList.contains('filled')){
+				cells[selectedCell].innerHTML = i + 1;
+				cells[selectedCell].setAttribute('data', i + 1 );
+
+				var row = Math.floor(selectedCell / CONSTANT_SUDOKU.GRID_SIZE)
+				var col = selectedCell % CONSTANT_SUDOKU.GRID_SIZE
+				suAnswer[row][col] = i + 1;
+				saveGameInfo();
+				removeErr();
+				checkErr(i + 1);
+
+			}
+		})
+	}) 
 }
 
 // initSudoku
@@ -379,14 +462,17 @@ var initSudoku = () => {
 	sudokuClear();
 	removeBg();
 	initCellsEvent();
-
+	initNumberInputEvent()
 	su = genSudoku(level);
-	suAnswer = su.question
+	suAnswer =  su.question.map(row => [...row]);
 	for(var i = 0 ; i < Math.pow(CONSTANT_SUDOKU.GRID_SIZE,2); i++) {
 		var row = Math.floor(i/CONSTANT_SUDOKU.GRID_SIZE);
 		var col = i%CONSTANT_SUDOKU.GRID_SIZE;
-		if(suAnswer[row][col] !== 0) {
-			cells[i].innerHTML = suAnswer[row][col];
+
+		cells[i].setAttribute('data', su.question[row][col] );
+
+		if(su.question[row][col] !== 0) {
+			cells[i].innerHTML = su.question[row][col];
 			cells[i].classList.add('filled')
 		}
 	}

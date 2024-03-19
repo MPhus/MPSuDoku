@@ -205,6 +205,7 @@ main {
 }
 .game-cell.selected {
 	background-color: var(--cell-hover);
+	color: var(--bg-color);
 
 }
 .game-cell:hover {
