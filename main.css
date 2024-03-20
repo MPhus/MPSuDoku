@@ -200,6 +200,11 @@ main {
 	background-color: var(--red-color);
 	color: var(--bg-color);
 }
+
+.game-cell.filled.err {
+	background-color: var(--red-color);
+	color: var(--text-color);
+}
 .game-cell.hover {
 	border: 3px solid var(--cell-hover);
 }
@@ -296,6 +301,13 @@ main {
 .btn-resume{
 	background-color: var(--primary-color);
 }
+.cell-err{
+	animation: shake linear .5s;
+}
+.cell-animation {
+	animation: zoom linear .2s;
+
+}
 /* Animation */
 @keyframes shake {
 	0%{
@@ -328,3 +340,8 @@ main {
         opacity: 1;
     }
 }
+/* @keyframes cellAnimation {
+	0% {
+	
+	}
+} */

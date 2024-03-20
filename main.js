@@ -396,7 +396,11 @@ var saveGameInfo = () => {
 var checkErr = (value) => {
 	var addErr = (a) => {
 		if(parseInt(a.getAttribute('data')) === value){
+			a.classList.add('cell-err');
 			a.classList.add('err');
+			setTimeout(() => {
+				a.classList.remove('cell-err');
+			},500)
 		}
 	}
 
@@ -443,14 +447,16 @@ var initNumberInputEvent = () => {
 			if(!cells[selectedCell].classList.contains('filled')){
 				cells[selectedCell].innerHTML = i + 1;
 				cells[selectedCell].setAttribute('data', i + 1 );
-
+				cells[selectedCell].classList.add('cell-animation');
+				setTimeout(() => {
+					cells[selectedCell].classList.remove('cell-animation');
+				},500)
 				var row = Math.floor(selectedCell / CONSTANT_SUDOKU.GRID_SIZE)
 				var col = selectedCell % CONSTANT_SUDOKU.GRID_SIZE
 				suAnswer[row][col] = i + 1;
 				saveGameInfo();
 				removeErr();
 				checkErr(i + 1);
-
 			}
 		})
 	}) 
@@ -458,11 +464,10 @@ var initNumberInputEvent = () => {
 
 // initSudoku
 var initSudoku = () => {
-
 	sudokuClear();
 	removeBg();
 	initCellsEvent();
-	initNumberInputEvent()
+	initNumberInputEvent();
 	su = genSudoku(level);
 	suAnswer =  su.question.map(row => [...row]);
 	for(var i = 0 ; i < Math.pow(CONSTANT_SUDOKU.GRID_SIZE,2); i++) {
