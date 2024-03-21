@@ -164,8 +164,10 @@ var showResult = () => {
     clearInterval(tiMer);
     gameScreen.classList.remove('active');
     winScreen.classList.add('active');
-    // result_time.innerHTML = showTime(seconds);
+    winTime.innerHTML = showTime(seconds);
+	winnName.innerHTML = nameIput.value.trim();
 }
+
 // ---
 
 
@@ -215,6 +217,7 @@ var lengthLevel = CONSTANT_SUDOKU.LEVEL.length;
 var level = CONSTANT_SUDOKU.LEVEL[levelIndex];
 var btnResume = document.querySelector('.btn-resume');
 var btnNewGame = document.querySelector('.btn-new-game');
+var btnNewGame2 = document.querySelector('.btn-new-game2');
 var btnContinute = document.querySelector('.btn-continue');
 var Pause = true;
 
@@ -223,7 +226,8 @@ var startScreen = document.querySelector('.start-screen');
 var gameScreen = document.querySelector('.game-screen');
 var pauseScreen = document.querySelector('.pause-screen');
 var winScreen = document.querySelector('.win-screen');
-
+var winTime = document.querySelector('.win-time')
+var winnName = document.querySelector('.win-name')
 
 // ----game
 var gameName = document.querySelector('.top-game-name');
@@ -319,6 +323,9 @@ btnResume.addEventListener('click', () => {
 	Pause = true;
 })
 btnNewGame.addEventListener('click', () => {
+	returnStartScreen()
+})
+btnNewGame2.addEventListener('click', () => {
 	returnStartScreen()
 })
 btnContinute.addEventListener('click', () => {
@@ -559,7 +566,7 @@ var init = () => {
 	document.querySelector('meta[name="theme-color"').setAttribute('content', isDarkMode ? '#12372A' : '#E1F0DA');
 
 	var game = getGameInfo();
-	console.log(game);
+	// console.log(game);
 	btnContinute.style.display = game ? 'block' : 'none'
 	initGrid();
 	initCellsEvent();
