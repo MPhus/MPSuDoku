@@ -525,8 +525,13 @@ main {
 	
 }
 @media (max-height: 820px){
-	
 	:root {
-		--cell-size : 44px;
+		--cell-size : 40px;
+	}
+	.top-game-nav {
+		padding: 0	;
+	}
+	.logo-img {
+		width: 250px;
 	}
 }
