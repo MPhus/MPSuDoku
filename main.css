@@ -86,6 +86,11 @@ main {
 }
 .input-name {
 	cursor: text;
+
+}
+
+.mode-start {
+	text-align: center;
 }
 .input-name, .btn  {
 	width: 300px;
@@ -101,9 +106,9 @@ main {
 	border: 2px solid var(--filled-color) ;
 }
 .btn {
+	user-select: none;
 	background-color: var(--filled-color);
 	cursor: pointer;
-
 	transition: all .3s linear;
 }
 .btn:hover {
@@ -243,6 +248,7 @@ main {
 	font-size: 28px;
 	color: var(--cell-hover);
 	transition: all linear .3s;
+	cursor: pointer;
 }
 .top-game-answer {
 	font-size: 36px;
@@ -455,9 +461,12 @@ main {
 		height: auto;
 	}
 	/* start game */
-
+	
 	.screen {
 		margin-top: 40px;
+	}
+	.screen-input {
+		align-items: center;
 	}
 	.logo-img {
 		width: 200px;
@@ -502,13 +511,12 @@ main {
 	}
 	.pause-text {
 		font-size: 36px;
-	}
+	} 
 
 	/* win page */
 	.win-screen{
 		width: 350px;
 	}
-
 	.win-screen-wrap {
 		margin-top: 40px;
 	}
@@ -520,7 +528,6 @@ main {
 	}
 	.win-text{
 		font-size: 32px;
-		
 	}
 	
 }
@@ -532,6 +539,17 @@ main {
 		padding: 0	;
 	}
 	.logo-img {
-		width: 250px;
+		width: 200px;
+	}
+}
+@media (max-height: 600px){
+	:root {
+		--cell-size : 40px;
+	}
+	.top-game-nav {
+		padding: 0;
+	}
+	.logo-img {
+		width: 200px;
 	}
 }
